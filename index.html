@@ -1,0 +1,129 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"><title>GebiX</title><link rel="manifest" href="manifest.webmanifest"><meta name="theme-color" content="#065f46"><meta name="mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-title" content="GebiX"><link rel="icon" href="icon-192.png"><link rel="apple-touch-icon" href="icon-192.png">
+<style>
+:root{--bg:#f3f7f5;--card:#fff;--tx:#0e1e2c;--mut:#5f6f7e;--pr:#047857;--pr2:#10b981;--bd:#dde6e2;--bad:#dc2626;--warn:#d97706;color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media(prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#08131d;--card:#102130;--tx:#e8eff5;--mut:#92a4b4;--pr:#10b981;--pr2:#34d399;--bd:#1d3346;color-scheme:dark}}
+:root[data-theme="dark"]{--bg:#08131d;--card:#102130;--tx:#e8eff5;--mut:#92a4b4;--pr:#10b981;--pr2:#34d399;--bd:#1d3346;color-scheme:dark}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--tx);font:15px/1.45 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif}
+#m{max-width:520px;margin:0 auto;padding:14px 14px 96px}
+h2{margin:6px 0 2px;font-size:22px}h3{margin:0 0 10px}small,.mu{color:var(--mut);font-size:12.5px}
+.hero{background:linear-gradient(135deg,#0b1f33,#065f46);color:#fff;border-radius:20px;padding:18px}
+.hero small{color:#b8d8cc}.big{font-size:30px;font-weight:700;letter-spacing:-.5px}
+.two{display:flex;gap:10px;margin-top:12px}.two>div{flex:1;background:rgba(255,255,255,.1);border-radius:12px;padding:9px}
+.card{background:var(--card);border:1px solid var(--bd);border-radius:16px;padding:14px;margin-top:12px}
+.bar{height:8px;border-radius:8px;background:var(--bd);overflow:hidden;margin:6px 0}.bar i{display:block;height:100%;background:var(--pr2)}
+.r{display:flex;align-items:center;gap:10px;padding:9px 0;border-top:1px solid var(--bd)}.r:first-of-type{border-top:0}
+.g{flex:1;min-width:0}.g b,.g small{display:block;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.ic{width:34px;height:34px;border-radius:50%;display:grid;place-items:center;font-weight:700;background:rgba(220,38,38,.12);color:var(--bad)}
+.ic.in{background:rgba(16,185,129,.15);color:var(--pr)}.in{color:var(--pr)}.out{color:var(--bad)}
+.b,.b2{border:0;border-radius:12px;padding:12px 16px;font-weight:600;font-size:15px;font-family:inherit;width:100%;margin-top:10px;cursor:pointer}
+.b{background:var(--pr);color:#fff}.b2{background:transparent;color:var(--pr);border:1.5px solid var(--pr)}.b.red{background:var(--bad)}
+.chips{display:flex;gap:8px;margin:10px 0}.chip{padding:7px 14px;border-radius:20px;border:1px solid var(--bd);background:var(--card);color:var(--tx);font-family:inherit;font-size:14px;cursor:pointer}.chip.on{background:var(--pr);color:#fff;border-color:var(--pr)}
+input,select{width:100%;padding:12px;border:1px solid var(--bd);border-radius:12px;background:var(--bg);color:var(--tx);font-size:16px;font-family:inherit;margin:4px 0 10px}
+label{font-size:13px;color:var(--mut);display:block}
+.chart{display:flex;gap:10px;align-items:flex-end;height:110px;margin-top:8px}.chart>div{flex:1;text-align:center;font-size:11px;color:var(--mut)}
+.chart .p{display:flex;gap:3px;align-items:flex-end;height:90px;justify-content:center}.chart .p i{width:40%;border-radius:5px 5px 0 0;min-height:2px}
+nav{position:fixed;left:0;right:0;bottom:0;display:flex;background:var(--card);border-top:1px solid var(--bd);padding-bottom:env(safe-area-inset-bottom,0px);z-index:5}
+nav button{flex:1;border:0;background:none;color:var(--mut);padding:9px 0 8px;font-size:12px;font-family:inherit;cursor:pointer}nav button b{display:block;font-size:19px}nav button.on{color:var(--pr)}
+#sh{display:none;position:fixed;inset:0;z-index:20}.bk{position:absolute;inset:0;background:rgba(0,0,0,.5)}
+.sc{position:absolute;left:0;right:0;bottom:0;max-height:88vh;overflow:auto;background:var(--card);border-radius:20px 20px 0 0;padding:18px 16px calc(18px + env(safe-area-inset-bottom,0px));max-width:520px;margin:0 auto}
+.tag{display:inline-block;padding:2px 9px;border-radius:10px;font-size:12px;background:rgba(217,119,6,.15);color:var(--warn)}
+.empty{text-align:center;padding:26px 10px;color:var(--mut)}
+</style></head><body>
+<div id="m"></div><nav id="nav"></nav><div id="sh"></div>
+<script>
+const $=s=>document.querySelector(s),KEY="gebix_v1";
+let S={};try{S=JSON.parse(localStorage.getItem(KEY))||{}}catch(e){}
+S=Object.assign({setup:false,opening:0,basic:0,allow:0,ded:0,payday:25,cycle:"payday",cal:"greg",lang:"en",hide:false,limit:0,cl:{},tx:[],goals:[]},S);
+const save=()=>{try{localStorage.setItem(KEY,JSON.stringify(S))}catch(e){}};
+const CE=["Housing & rent","Food & groceries","Transport","Electricity","Water","Internet & data","Healthcare","Education","Family support","Clothing","Entertainment","Personal care","Loan repayment","Other"];
+const CI=["Salary","Housing allowance","Transport allowance","Overtime","Bonus","Freelance","Other income"];
+const PM=["Cash","Telebirr","CBE Birr","Commercial Bank of Ethiopia","Awash Bank","Dashen Bank","Bank of Abyssinia","Other bank","Other"];
+const PLANS={monthly:null,annual:null,trialDays:0,premiumOpen:false};
+const T={en:{home:"Home",tx:"Transactions",bud:"Budget",sav:"Savings",pro:"Profile",inc:"Income",exp:"Expenses",bal:"Available balance"},am:{home:"ዋና ገጽ",tx:"ግብይቶች",bud:"በጀት",sav:"ቁጠባ",pro:"መገለጫ",inc:"ገቢ",exp:"ወጪ",bal:"ቀሪ ሒሳብ"}};
+const t=k=>T[S.lang][k]||T.en[k]||k;
+const EM={en:["Meskerem","Tikimt","Hidar","Tahsas","Tir","Yekatit","Megabit","Miazia","Genbot","Sene","Hamle","Nehase","Pagume"],am:["መስከረም","ጥቅምት","ኅዳር","ታኅሣሥ","ጥር","የካቲት","መጋቢት","ሚያዝያ","ግንቦት","ሰኔ","ሐምሌ","ነሐሴ","ጳጉሜ"]};
+const esc=s=>String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const toC=v=>Math.round(parseFloat(String(v).replace(/,/g,""))*100)||0;
+const fmt=c=>(c/100).toLocaleString("en-US",{minimumFractionDigits:2,maximumFractionDigits:2});
+const money=c=>S.hide?"ETB ••••":"ETB "+fmt(c);
+const iso=d=>d.getFullYear()+"-"+String(d.getMonth()+1).padStart(2,"0")+"-"+String(d.getDate()).padStart(2,"0");
+const now=()=>{const d=new Date();d.setHours(0,0,0,0);return d};
+const pd=(y,m)=>new Date(y,m,Math.min(S.payday,new Date(y,m+1,0).getDate()));
+function toEth(y,m,d){const a=Math.floor((14-m)/12),yy=y+4800-a,mm=m+12*a-3;const j=d+Math.floor((153*mm+2)/5)+365*yy+Math.floor(yy/4)-Math.floor(yy/100)+Math.floor(yy/400)-32045;const r=(j-1723856)%1461,n=(r%365)+365*Math.floor(r/1460);return[4*Math.floor((j-1723856)/1461)+Math.floor(r/365)-Math.floor(r/1460),Math.floor(n/30)+1,(n%30)+1]}
+function fd(s){const[y,m,d]=s.split("-").map(Number);if(S.cal=="eth"){const e=toEth(y,m,d);return EM[S.lang][e[1]-1]+" "+e[2]+", "+e[0]}return new Date(y,m-1,d).toLocaleDateString("en-GB",{day:"numeric",month:"short",year:"numeric"})}
+function cyc(){const n=now(),y=n.getFullYear(),m=n.getMonth();if(S.cycle=="month")return[new Date(y,m,1),new Date(y,m+1,1)];let k=m;if(pd(y,k)>n)k--;return[pd(y,k),pd(y,k+1)]}
+function nextPay(){const n=now(),y=n.getFullYear(),m=n.getMonth();let p=pd(y,m);if(p<n)p=pd(y,m+1);return[p,Math.round((p-n)/864e5)]}
+const inC=(x,c)=>x.date>=iso(c[0])&&x.date<iso(c[1]);
+const sum=(a,f)=>a.reduce((s,x)=>s+f(x),0);
+function stats(c){const L=S.tx.filter(x=>inC(x,c));const by={};L.forEach(x=>{if(x.type=="out")by[x.cat]=(by[x.cat]||0)+x.amt});return{L,inc:sum(L,x=>x.type=="in"?x.amt:0),exp:sum(L,x=>x.type=="out"?x.amt:0),by}}
+const saved=()=>sum(S.goals,g=>g.saved),net=()=>S.basic+S.allow-S.ded;
+const bal=()=>S.opening+sum(S.tx,x=>x.type=="in"?x.amt:-x.amt)-saved();
+const limit=()=>S.limit||net();
+const col=p=>p>=90?"var(--bad)":p>=75?"var(--warn)":"var(--pr2)";
+let tab="home",q="",flt="all";
+const sheet=h=>{$("#sh").innerHTML='<div class="bk" onclick="cs()"></div><div class="sc">'+h+"</div>";$("#sh").style.display="block"};
+const cs=()=>{$("#sh").style.display="none";$("#sh").innerHTML=""};
+const go=x=>{tab=x;render();scrollTo(0,0)};
+const opts=(a,v)=>a.map(o=>`<option${o==v?" selected":""}>${esc(o)}</option>`).join("");
+const row=x=>`<div class="r"><div class="ic ${x.type}">${x.type=="in"?"↓":"↑"}</div><div class="g" onclick="txForm('${x.id}')"><b>${esc(x.title)}</b><small>${esc(x.cat)} · ${esc(x.pm)} · ${fd(x.date)}</small></div><b class="${x.type}">${x.type=="in"?"+":"−"}${fmt(x.amt)}</b><span class="mu" onclick="del('${x.id}')" style="padding:6px;cursor:pointer">✕</span></div>`;
+const logo=`<svg width="44" height="44" viewBox="0 0 44 44"><rect width="44" height="44" rx="12" fill="#047857"/><path d="M10 31l8-9 6 5 10-13" fill="none" stroke="#fff" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"/><circle cx="34" cy="14" r="3" fill="#6ee7b7"/></svg>`;
+
+function pgHome(){const c=cyc(),st=stats(c),lim=limit(),pct=lim?Math.round(st.exp*100/lim):0,np=nextPay(),b=bal(),d=Math.max(1,np[1]);
+const ins=[];ins.push(`You have used ${pct}% of your budget this period.`);
+ins.push(`You have ${money(b)} until your next payday in ${np[1]} day${np[1]==1?"":"s"}${b>0?`, about ${money(Math.floor(b/d))} a day`:""}.`);
+const top=Object.entries(st.by).sort((a,b)=>b[1]-a[1])[0];if(top)ins.push(`${top[0]} takes the biggest share of your spending: ${money(top[1])}.`);
+const n=new Date(),M=[];for(let i=3;i>=0;i--){const dt=new Date(n.getFullYear(),n.getMonth()-i,1),k=iso(dt).slice(0,7),L=S.tx.filter(x=>x.date.slice(0,7)==k);M.push([dt.toLocaleDateString("en-GB",{month:"short"}),sum(L,x=>x.type=="in"?x.amt:0),sum(L,x=>x.type=="out"?x.amt:0)])}
+const mx=Math.max(1,...M.map(x=>Math.max(x[1],x[2])));
+return`<div style="display:flex;align-items:center;gap:10px">${logo}<div><h2 style="margin:0">GebiX</h2><small>${fd(iso(now()))}</small></div></div>
+<div class="hero" style="margin-top:12px"><small>${t("bal")} <span onclick="S.hide=!S.hide;save();render()" style="cursor:pointer">${S.hide?"🙈":"👁"}</span></small><div class="big">${money(b)}</div>
+<div class="two"><div><small>${t("inc")}</small><br><b>${money(st.inc)}</b></div><div><small>${t("exp")}</small><br><b>${money(st.exp)}</b></div></div>
+<small style="display:block;margin-top:10px">Next payday: ${fd(iso(np[0]))} · ${np[1]} days</small></div>
+<div class="card"><div style="display:flex;justify-content:space-between"><b>Budget</b><span>${money(Math.max(0,lim-st.exp))} left</span></div><div class="bar"><i style="width:${Math.min(100,pct)}%;background:${col(pct)}"></i></div><small>${money(st.exp)} of ${money(lim)} · Savings ${money(saved())}</small></div>
+<div class="card"><h3>Insights</h3>${ins.map(x=>`<p style="margin:0 0 8px">• ${esc(x)}</p>`).join("")}</div>
+<div class="card"><h3>Income vs expenses</h3><div class="chart">${M.map(x=>`<div><div class="p"><i style="height:${x[1]*100/mx}%;background:var(--pr2)"></i><i style="height:${x[2]*100/mx}%;background:var(--bad)"></i></div>${x[0]}</div>`).join("")}</div><small><span class="in">■</span> ${t("inc")} <span class="out">■</span> ${t("exp")}</small></div>
+<div class="card"><h3>Recent</h3>${S.tx.length?[...S.tx].sort((a,b)=>b.date.localeCompare(a.date)).slice(0,5).map(row).join(""):'<div class="empty">No transactions yet. Tap + to add your first one.</div>'}</div>
+<button class="b" onclick="txForm()">+ Add transaction</button>`}
+
+function list(){const L=S.tx.filter(x=>(flt=="all"||x.type==flt)&&(x.title+x.cat+x.pm+(x.note||"")).toLowerCase().includes(q.toLowerCase())).sort((a,b)=>b.date.localeCompare(a.date));return L.length?L.map(row).join(""):'<div class="empty">Nothing found.</div>'}
+function pgTx(){return`<h2>${t("tx")}</h2><input placeholder="Search" value="${esc(q)}" oninput="q=this.value;$('#ls').innerHTML=list()"><div class="chips">${["all","in","out"].map(f=>`<button class="chip${flt==f?" on":""}" onclick="flt='${f}';render()">${f=="all"?"All":f=="in"?t("inc"):t("exp")}</button>`).join("")}</div><div class="card" style="margin-top:0" id="ls">${list()}</div><button class="b" onclick="txForm()">+ Add transaction</button>`}
+
+function pgBud(){const c=cyc(),st=stats(c),lim=limit(),pct=lim?Math.round(st.exp*100/lim):0,lv=[100,90,75,50].find(x=>pct>=x);
+return`<h2>${t("bud")}</h2><small>${fd(iso(c[0]))} to ${fd(iso(new Date(c[1]-864e5)))} · ${S.cycle=="payday"?"payday to payday":"calendar month"}</small>
+<div class="card"><div style="display:flex;justify-content:space-between"><b>Overall limit</b><b>${money(lim)}</b></div><div class="bar"><i style="width:${Math.min(100,pct)}%;background:${col(pct)}"></i></div><small>${money(st.exp)} spent · ${pct}%</small>${lv?`<p><span class="tag">You have passed ${lv}% of your budget</span></p>`:""}</div>
+<div class="card"><h3>By category</h3>${CE.map(k=>{const l=S.cl[k]||0,s=st.by[k]||0,p=l?Math.round(s*100/l):0;return l||s?`<div style="margin-bottom:10px"><div style="display:flex;justify-content:space-between"><span>${esc(k)}</span><small>${fmt(s)}${l?" / "+fmt(l):""}</small></div>${l?`<div class="bar"><i style="width:${Math.min(100,p)}%;background:${col(p)}"></i></div>`:""}</div>`:""}).join("")||'<div class="empty">Set category limits to track planned versus actual spending.</div>'}</div>
+<button class="b" onclick="budForm()">Edit budget</button>`}
+function budForm(){sheet(`<h3>Edit budget</h3><label>Overall limit (ETB). Empty uses your net salary.<input id="bl" inputmode="decimal" value="${S.limit?S.limit/100:""}"></label>${CE.map((k,i)=>`<label>${esc(k)}<input id="c${i}" inputmode="decimal" value="${S.cl[k]?S.cl[k]/100:""}"></label>`).join("")}<button class="b" onclick="saveBud()">Save budget</button>`)}
+function saveBud(){S.limit=toC($("#bl").value);S.cl={};CE.forEach((k,i)=>{const v=toC($("#c"+i).value);if(v>0)S.cl[k]=v});save();cs();render()}
+
+function pgSav(){return`<h2>${t("sav")}</h2><small>Total saved: ${money(saved())}</small>${S.goals.length?S.goals.map(g=>{const p=g.target?Math.min(100,Math.round(g.saved*100/g.target)):0,dl=g.deadline?Math.ceil((new Date(g.deadline)-now())/864e5):0,need=g.deadline&&dl>0&&g.saved<g.target?Math.ceil((g.target-g.saved)/Math.max(1,Math.ceil(dl/30))):0;return`<div class="card"><div style="display:flex;justify-content:space-between"><b>${esc(g.name)}</b><span class="mu" onclick="del('${g.id}',1)" style="cursor:pointer">✕</span></div><div class="bar"><i style="width:${p}%"></i></div><small>${money(g.saved)} of ${money(g.target)} · ${p}%${g.deadline?" · by "+fd(g.deadline):""}</small>${need?`<br><small>Save ${money(need)} a month to reach it on time.</small>`:""}<div style="display:flex;gap:8px"><button class="b2" onclick="goalMoney('${g.id}',1)">Deposit</button><button class="b2" onclick="goalMoney('${g.id}',-1)">Withdraw</button></div></div>`}).join(""):'<div class="card empty">No goals yet. Start with an emergency fund.</div>'}<button class="b" onclick="goalForm()">+ New savings goal</button>`}
+function goalForm(){sheet(`<h3>New savings goal</h3><label>Name<input id="gn" placeholder="Emergency fund"></label><label>Target (ETB)<input id="gt" inputmode="decimal"></label><label>Deadline (optional)<input id="gd" type="date"></label><button class="b" onclick="saveGoal()">Create goal</button>`)}
+function saveGoal(){const n=$("#gn").value.trim(),tg=toC($("#gt").value);if(!n||tg<=0)return alert("Enter a name and a target amount.");S.goals.push({id:uid(),name:n,target:tg,deadline:$("#gd").value,saved:0});save();cs();render()}
+function goalMoney(id,s){sheet(`<h3>${s>0?"Deposit":"Withdraw"}</h3><label>Amount (ETB)<input id="ga" inputmode="decimal"></label><button class="b" onclick="doGoal('${id}',${s})">Confirm</button>`)}
+function doGoal(id,s){const g=S.goals.find(x=>x.id==id),a=toC($("#ga").value);if(a<=0)return alert("Enter an amount.");if(s>0&&a>bal())return alert("That is more than your available balance.");if(s<0&&a>g.saved)return alert("That is more than this goal holds.");g.saved+=s*a;save();cs();render()}
+
+function pgPro(){return`<h2>${t("pro")}</h2><div class="card"><h3>Salary</h3>${S.basic?`<div class="r"><span class="g">Basic salary</span>${money(S.basic)}</div><div class="r"><span class="g">Allowances</span>${money(S.allow)}</div><div class="r"><span class="g">Gross</span>${money(S.basic+S.allow)}</div><div class="r"><span class="g">Deductions</span>−${money(S.ded)}</div><div class="r"><b class="g">Take-home</b><b>${money(net())}</b></div><small>Payday: day ${S.payday} of each month</small>`:'<div class="empty">Add your salary details.</div>'}<button class="b" onclick="recSal()">Record salary received</button><button class="b2" onclick="salForm()">Edit salary</button></div>
+<div class="card"><h3>Settings</h3><label>Calendar<select onchange="S.cal=this.value;save();render()"><option value="greg"${S.cal=="greg"?" selected":""}>Gregorian</option><option value="eth"${S.cal=="eth"?" selected":""}>Ethiopian</option></select></label><label>Budget period<select onchange="S.cycle=this.value;save();render()"><option value="payday"${S.cycle=="payday"?" selected":""}>Payday to payday</option><option value="month"${S.cycle=="month"?" selected":""}>Calendar month</option></select></label><label>Language<select onchange="S.lang=this.value;save();render()"><option value="en"${S.lang=="en"?" selected":""}>English</option><option value="am"${S.lang=="am"?" selected":""}>አማርኛ</option></select></label></div>
+<div class="card"><h3>Your plan</h3><p style="margin:0">Free plan · every essential feature</p><button class="b2" onclick="planInfo()">See Free and Premium</button></div><small>Your data is saved on this device only. All amounts are recorded by you manually.</small><button class="b2 red" style="color:var(--bad);border-color:var(--bad)" onclick="sheet('<h3>Erase everything?</h3><p>This deletes all transactions, goals and settings on this device.</p><button class=\\'b red\\' onclick=\\'wipe()\\'>Erase all data</button><button class=\\'b2\\' onclick=\\'cs()\\'>Cancel</button>')">Erase all data</button>`}
+function planInfo(){const p=n=>n?"ETB "+n:"Price not set yet";sheet(`<h3>Free plan</h3><p style="margin:0 0 8px">• Unlimited income and expense records<br>• Salary management<br>• Budgets with category limits and alerts<br>• Savings goals<br>• Search and filters<br>• Works offline</p><h3 style="margin-top:16px">Premium</h3><p>AI assistant, advanced analytics, forecasting, detailed PDF and Excel exports, custom reports and priority support.</p><p class="mu">Monthly: ${p(PLANS.monthly)} · Annual: ${p(PLANS.annual)}<br>${PLANS.premiumOpen?"":"Premium is not on sale yet. Nothing will be charged."}</p><p class="mu">Your records are never locked, sold or shown to advertisers, and you are never charged without your confirmation.</p><button class="b2" onclick="cs()">Close</button>`)}
+function wipe(){try{localStorage.removeItem(KEY)}catch(e){}location.reload()}
+function salForm(){const f=!S.setup;sheet(`<h3>${f?"Set up your salary":"Edit salary"}</h3><label>Basic salary (ETB)<input id="s1" inputmode="decimal" value="${S.basic?S.basic/100:""}"></label><label>Allowances: housing, transport, overtime (ETB)<input id="s2" inputmode="decimal" value="${S.allow?S.allow/100:""}"></label><label>Deductions: income tax, pension (ETB)<input id="s3" inputmode="decimal" value="${S.ded?S.ded/100:""}"></label><label>Payday (day of the month)<input id="s4" type="number" min="1" max="31" value="${S.payday}"></label>${f?'<label>Money you have right now (ETB)<input id="s5" inputmode="decimal"></label>':""}<button class="b" onclick="saveSal()">Save</button>`)}
+function saveSal(){const b=toC($("#s1").value),p=parseInt($("#s4").value);if(b<=0||!(p>=1&&p<=31))return alert("Enter your basic salary and a payday between 1 and 31.");S.basic=b;S.allow=toC($("#s2").value);S.ded=toC($("#s3").value);S.payday=p;if(!S.setup){S.opening=toC($("#s5").value);S.setup=true}save();cs();render()}
+function recSal(){if(!S.basic)return salForm();S.tx.push({id:uid(),type:"in",amt:net(),title:"Salary",cat:"Salary",pm:"Other bank",date:iso(now()),note:""});save();render()}
+
+const uid=()=>Date.now().toString(36)+Math.random().toString(36).slice(2,6);
+let ty="out";
+function txForm(id){const x=S.tx.find(z=>z.id==id)||{type:ty,amt:0,title:"",cat:"",pm:"Cash",date:iso(now()),note:""};ty=x.type;
+sheet(`<h3>${id?"Edit":"New"} transaction</h3><div class="chips"><button class="chip${ty=="out"?" on":""}" onclick="ty='out';swap()">${t("exp")}</button><button class="chip${ty=="in"?" on":""}" onclick="ty='in';swap()">${t("inc")}</button></div>
+<label>Amount (ETB)<input id="ta" inputmode="decimal" value="${x.amt?x.amt/100:""}"></label><label>Title<input id="tt" value="${esc(x.title)}"></label><label>Category<select id="tc">${opts(ty=="in"?CI:CE,x.cat)}</select></label><label>Payment method<select id="tp">${opts(PM,x.pm)}</select></label><label>Date<input id="td" type="date" value="${x.date}"></label><label>Note (optional)<input id="tn" value="${esc(x.note||"")}"></label><button class="b" onclick="saveTx('${id||""}')">Save</button>`)}
+function swap(){const a=$("#ta").value,t1=$("#tt").value,p=$("#tp").value,d=$("#td").value,n=$("#tn").value;txFormKeep={a,t1,p,d,n};$("#tc").innerHTML=opts(ty=="in"?CI:CE,"");document.querySelectorAll(".sc .chip").forEach((b,i)=>b.classList.toggle("on",(i==0)==(ty=="out")))}
+let txFormKeep;
+function saveTx(id){const a=toC($("#ta").value),ti=$("#tt").value.trim();if(a<=0||!ti)return alert("Enter an amount and a title.");const o={id:id||uid(),type:ty,amt:a,title:ti,cat:$("#tc").value,pm:$("#tp").value,date:$("#td").value||iso(now()),note:$("#tn").value.trim()};if(id)S.tx[S.tx.findIndex(z=>z.id==id)]=o;else S.tx.push(o);save();cs();render()}
+function del(id,g){sheet(`<h3>Delete this ${g?"goal":"transaction"}?</h3><p>${g?"Money saved in it returns to your balance.":"This cannot be undone."}</p><button class="b red" onclick="doDel('${id}',${g?1:0})">Delete</button><button class="b2" onclick="cs()">Cancel</button>`)}
+function doDel(id,g){if(g)S.goals=S.goals.filter(x=>x.id!=id);else S.tx=S.tx.filter(x=>x.id!=id);save();cs();render()}
+function render(){const m=$("#m"),n=$("#nav");if(!S.setup){n.style.display="none";m.innerHTML=`<div class="empty" style="padding-top:70px">${logo}<h2>Welcome to GebiX</h2><p>Track your salary, spending and savings in birr, from payday to payday.</p><button class="b" onclick="salForm()">Set up my salary</button></div>`;return}
+n.style.display="flex";m.innerHTML=({home:pgHome,tx:pgTx,bud:pgBud,sav:pgSav,pro:pgPro})[tab]();
+n.innerHTML=[["home","⌂"],["tx","⇅"],["bud","◔"],["sav","❖"],["pro","☺"]].map(x=>`<button class="${tab==x[0]?"on":""}" onclick="go('${x[0]}')"><b>${x[1]}</b>${t(x[0])}</button>`).join("")}
+render();
+if("serviceWorker" in navigator)addEventListener("load",()=>navigator.serviceWorker.register("sw.js").catch(()=>{}));
+</script></body></html>
